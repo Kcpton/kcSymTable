@@ -7,6 +7,8 @@
 #include <stdio.h>
 #include <assert.h>
 #include <string.h>
+#include <stdlib.h>
+#include <stddef.h>
 
 struct Node
 {
@@ -94,7 +96,7 @@ void* SymTable_get(SymTable_T oSymTable, const char *pcKey) {
 
 void* SymTable_replace(SymTable_T oSymTable, const char *pcKey, 
    const void *pvValue) {
-   void *outItem;
+   const void *outItem;
    struct Node *psCurr;
    assert( oSymTable != NULL);
    assert(pcKey != NULL);
@@ -105,14 +107,14 @@ void* SymTable_replace(SymTable_T oSymTable, const char *pcKey,
    if (psCurr == NULL) {
       return 0;
    }
-   outItem = psCurr->pvItem;
+   outItem = (void*) psCurr->pvItem;
    psCurr->pvItem = pvValue;
    return (void*) outItem;
 }
 
 void *SymTable_remove(SymTable_T oSymTable, const char *pcKey) {
    struct Node*removalNode;
-   void* outItem;
+   const void* outItem;
    struct Node *psCurr;
    assert( oSymTable != NULL);
    assert(pcKey != NULL);
@@ -121,13 +123,13 @@ void *SymTable_remove(SymTable_T oSymTable, const char *pcKey) {
       return 0;
    } 
    if (strcmp(psCurr->value, pcKey) == 0) {
-      outItem = psCurr->psNext->pvItem;
+      outItem = (void*) psCurr->psNext->pvItem;
       removalNode = psCurr->psNext;
       psCurr->psNext = psCurr->psNext->psNext;
       oSymTable->psFirst = psCurr;
       free(removalNode->value);
       free(removalNode);
-      return outItem;
+      return (void *) outItem;
    }
    while(psCurr->psNext != NULL && 
       strcmp(psCurr->psNext->value, pcKey) != 0){
@@ -136,12 +138,12 @@ void *SymTable_remove(SymTable_T oSymTable, const char *pcKey) {
    if (psCurr->psNext == NULL) {
       return 0;
    }
-   outItem = psCurr->psNext->pvItem;
+   outItem = (void*) psCurr->psNext->pvItem;
    removalNode = psCurr->psNext;
    psCurr->psNext = psCurr->psNext->psNext;
    free(removalNode->value);
    free(removalNode);
-   return outItem;
+   return (void *) outItem;
 }
 
 void SymTable_free(SymTable_T oSymTable) {
@@ -158,6 +160,20 @@ void SymTable_free(SymTable_T oSymTable) {
    free(oSymTable);
 }
  
+void SymTable_map(SymTable_T oSymTable,
+               void (*pfApply)(void *pvItem, void *pvExtra),
+               const void *pvExtra)
+{
+   struct Node *psCurr;
+
+   assert(oSymTable != NULL);
+   assert(pfApply != NULL);
+
+   for (psCurr = oSymTable->psFirst;
+        psCurr != NULL;
+        psCurr = psCurr->psNext)
+      (*pfApply)((void*)psCurr->pvItem, (void*)pvExtra);
+}
 
 
 

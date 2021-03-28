@@ -2,6 +2,9 @@
 /* symtable.h                                                       */
 /* Author: Kevin Chen                                               */
 /*--------------------------------------------------------------------*/
+
+#include <stddef.h>
+
 typedef struct SymTable *SymTable_T;
 
 SymTable_T SymTable_new(void);
