@@ -44,12 +44,11 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey,
    struct Node *psCurr;
    assert(oSymTable != NULL);
    assert(pcKey != NULL);
-   assert(pvItem != NULL);
    psCurr = oSymTable->psFirst;
    while(psCurr != NULL && strcmp(psCurr->value, pcKey) != 0){
       psCurr = psCurr->psNext;
    }
-   if(psCurr != NULL) {
+   if (psCurr != NULL) {
       return 0;
    }
    NewNode =(struct Node*)malloc(sizeof(struct Node));
@@ -60,9 +59,6 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey,
    NewNode->psNext = oSymTable->psFirst;
    oSymTable->psFirst = NewNode;
    oSymTable->length += 1;
-   if (oSymTable-> length == 1) {
-      oSymTable->psFirst = NewNode;
-   }
    return 1;
 }
 
