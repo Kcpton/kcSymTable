@@ -54,7 +54,7 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey,
    }
    NewNode =(struct Node*)malloc(sizeof(struct Node));
    NewNode->pvItem = pvItem;
-   char* copy = malloc(strlen(pcKey) + 1);
+   copyKey = malloc(strlen(pcKey) + 1);
    strcpy(copyKey, pcKey);
    NewNode->value = copyKey;
    NewNode->psNext = oSymTable->psFirst;
