@@ -138,7 +138,7 @@ void *SymTable_remove(SymTable_T oSymTable, const char *pcKey) {
    if (psCurr->psNext == NULL) {
       return 0;
    }
-   outItem = (void*) psCurr->psNext->pvItem;
+   outItem = (void*)psCurr->psNext->pvItem;
    removalNode = psCurr->psNext;
    psCurr->psNext = psCurr->psNext->psNext;
    free(removalNode->value);
@@ -161,9 +161,8 @@ void SymTable_free(SymTable_T oSymTable) {
 }
  
 void SymTable_map(SymTable_T oSymTable,
-               void (*pfApply)(const char *pcKey, void *pvValue, void *pvExtra),
-               const void *pvExtra)
-{
+    void (*pfApply)(const char *pcKey, void *pvValue, void *pvExtra),
+    const void *pvExtra) {
    struct Node *psCurr;
 
    assert(oSymTable != NULL);
@@ -172,7 +171,7 @@ void SymTable_map(SymTable_T oSymTable,
    for (psCurr = oSymTable->psFirst;
         psCurr != NULL;
         psCurr = psCurr->psNext)
-      (*pfApply)((void*)psCurr->pvItem, (void*)pvExtra);
+      (*pfApply)((void*)psCurr->pvItem, (void *)psCurr->value, (void*)pvExtra);
 }
 
 
