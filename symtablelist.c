@@ -45,10 +45,8 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey,
    assert(oSymTable != NULL);
    assert(pcKey != NULL);
    assert(pvItem != NULL);
-   if (NewNode == NULL) {
-      return 0;
-   }
-   while(psCurr && strcmp(psCurr->value, pcKey) != 0){
+   psCurr = oSymTable->psFirst;
+   while(psCurr != NULL && strcmp(psCurr->value, pcKey) != 0){
       psCurr = psCurr->psNext;
    }
    if(psCurr != NULL) {
@@ -62,6 +60,9 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey,
    NewNode->psNext = oSymTable->psFirst;
    oSymTable->psFirst = NewNode;
    oSymTable->length += 1;
+   if (oSymTable-> length == 1) {
+      oSymTable->psFirst = NewNode;
+   }
    return 1;
 }
 
