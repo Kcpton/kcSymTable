@@ -117,7 +117,7 @@ void *SymTable_remove(SymTable_T oSymTable, const char *pcKey) {
    assert(pcKey != NULL);
    psCurr = oSymTable->psFirst;
    if (psCurr == NULL) {
-      return 0;
+      return NULL;
    } 
    if (strcmp(psCurr->value, pcKey) == 0) {
       outItem = (void*) psCurr->psNext->pvItem;
@@ -133,7 +133,7 @@ void *SymTable_remove(SymTable_T oSymTable, const char *pcKey) {
       psCurr = psCurr->psNext;
    }
    if (psCurr->psNext == NULL) {
-      return 0;
+      return NULL;
    }
    outItem = (void*)psCurr->psNext->pvItem;
    removalNode = psCurr->psNext;
