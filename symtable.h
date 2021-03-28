@@ -24,3 +24,6 @@ void *SymTable_get(SymTable_T oSymTable, const char *pcKey);
 
 void *SymTable_remove(SymTable_T oSymTable, const char *pcKey);
 
+void SymTable_map(SymTable_T oSymTable,
+    void (*pfApply)(const char *pcKey, void *pvValue, void *pvExtra),
+    const void *pvExtra);
