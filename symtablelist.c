@@ -161,7 +161,7 @@ void SymTable_free(SymTable_T oSymTable) {
 }
  
 void SymTable_map(SymTable_T oSymTable,
-               void (*pfApply)(void *pvItem, void *pvExtra),
+               void (*pfApply)(const char *pcKey, void *pvValue, void *pvExtra),
                const void *pvExtra)
 {
    struct Node *psCurr;
