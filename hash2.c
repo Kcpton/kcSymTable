@@ -214,7 +214,7 @@ size_t SymTable_getLength(SymTable_T oSymTable) {
    return oSymTable->length;
 }
 
-void SymTable_resize(SymTable_T oldSymTable, size_t new_bucketnum) {
+SymTable_T SymTable_resize(SymTable_T oldSymTable, size_t new_bucketnum) {
     SymTable_T newSymTable = SymTable_new_help(auBucketCounts[1]);
     size_t bucketLen;
     size_t i = 0;
