@@ -236,7 +236,7 @@ int SymTable_contains(SymTable_T oSymTable, const char *pcKey) {
     assert(oSymTable != NULL);
     assert(pcKey != NULL);
     hashval = SymTable_hash(pcKey, oSymTable->maxbucket);
-    if (oSymTable->psArray[hashval] = NULL) {
+    if (oSymTable->psArray[hashval] == NULL) {
        return 0;
     }
     return LinkedList_contains(oSymTable->psArray[hashval], pcKey);
