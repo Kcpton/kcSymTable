@@ -296,9 +296,9 @@ void SymTable_map(SymTable_T oSymTable,
     assert(oSymTable != NULL);
     bucketLen = oSymTable->maxbucket;
     pCurr =  oSymTable->psArray;
-    while(i < bucketLen - 1) {
+    while(i < bucketLen) {
         if((pCurr + i) != NULL) {
-            LinkedList_map(pCurr + i, pfApply, pvExtra);
+            LinkedList_map(pCurr + i, &pfApply, pvExtra);
         }
         i += 1;
     }
