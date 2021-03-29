@@ -29,7 +29,7 @@ struct LinkedList
 struct SymTable {
     size_t maxbucket;
     size_t length;
-    LinkedList_T* psArray;
+    LinkedList_T psArray;
 };
 
 LinkedList_T LinkedList_new(void) {
@@ -200,7 +200,7 @@ SymTable_T SymTable_new_help(size_t maxbucket) {
     oSymTable = (SymTable_T) malloc(sizeof(struct SymTable));
     oSymTable->length = 0;
     oSymTable->maxbucket = maxbucket;
-    oSymTable->psArray = (LinkedList_T*) malloc(sizeof(struct LinkedList)
+    oSymTable->psArray = (LinkedList_T) malloc(sizeof(struct LinkedList)
         * (maxbucket)); 
     return oSymTable;
 }
@@ -275,7 +275,7 @@ void SymTable_free(SymTable_T oSymTable) {
     struct LinkedList** pCurr;
     assert(oSymTable != NULL);
     bucketLen = oSymTable->maxbucket;
-    pCurr =  (struct LinkedList*) (oSymTable->psArray);
+    pCurr =  (LinkedList_T) (oSymTable->psArray);
     i = bucketLen;
     while(i < bucketLen) {
         if(*(pCurr + i) != NULL) {
