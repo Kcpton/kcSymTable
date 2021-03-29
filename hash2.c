@@ -230,25 +230,28 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey,
         oSymTable->length += 1;
     }
     if (oSymTable->length == 510) {
-        SymTable_T newSymTable = SymTable_new_help(auBucketCounts[1]);
+        LinkedList_T* oldArray;
         size_t bucketLen;
         size_t i = 0;
         struct Node* head;
-        newSymTable->length = oSymTable->length;
         bucketLen = oSymTable->maxbucket;
+        oSymTable->length = 0;
         while(i < bucketLen) {
-        head = NULL;
-        if (oSymTable->psArray[i] != NULL) {
-        head = oSymTable->psArray[i]->psFirst;
+            head = NULL;
+            if (oSymTable->psArray[i] != NULL) {
+            head = oSymTable->psArray[i]->psFirst;
+            }
+            while (head != NULL) {
+                SymTable_put(oSymTable, head->pvKey, head->pvItem);
+                head = head->psNext;
+            }
+            i++;
         }
-        while (head != NULL) {
-            SymTable_put(newSymTable, head->pvKey, head->pvItem);
-            head = head->psNext;
+        while(i < bucketLen) {
+            if (oldArray[i] != NULL) {
+            LinkedList_free(oldArray[i]);
+            }
         }
-        i++;
-        }
-        SymTable_free(oSymTable);
-        oSymTable = newSymTable;
     }
     return output;
     }
