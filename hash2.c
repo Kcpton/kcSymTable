@@ -253,7 +253,7 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey,
         i++;
         }
         oSymTable = newSymTable;
-        free(oSymTable);
+        free(oldSymTable);
     }
     return output;
     }
