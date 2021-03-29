@@ -169,7 +169,7 @@ void SymTable_map(SymTable_T oSymTable,
    for (psCurr = oSymTable->psFirst;
         psCurr != NULL;
         psCurr = psCurr->psNext)
-      (*pfApply)((void*)psCurr->pvItem, (void *)psCurr->value, (void*)pvExtra);
+      (*pfApply)((void*)psCurr->value, (void *)psCurr->pvItem, (void*)pvExtra);
 }
 
 
