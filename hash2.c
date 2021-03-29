@@ -218,12 +218,11 @@ size_t SymTable_getLength(SymTable_T oSymTable) {
    return oSymTable->length;
 }
 
-SymTable_T SymTable_resize(SymTable_T oldSymTable, size_t new_bucketnum) {
+SymTable_resize(SymTable_T oldSymTable, size_t new_bucketnum) {
     SymTable_T newSymTable = SymTable_new_help(new_bucketnum);
     size_t bucketLen;
     size_t i = 0;
     struct Node* head;
-    assert(oldSymTable != NULL);
     bucketLen = oldSymTable->maxbucket;
     while(i < bucketLen) {
       head = NULL;
@@ -237,7 +236,7 @@ SymTable_T SymTable_resize(SymTable_T oldSymTable, size_t new_bucketnum) {
       i++;
     }
     SymTable_free(oldSymTable);
-    return newSymTable;
+    oldSymTable = newSymTable;
 }
 
 
