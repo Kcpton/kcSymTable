@@ -113,24 +113,6 @@ void* LinkedList_replace(LinkedList_T oLinkedList, const char *pcKey,
    return (void*) outItem;
 }
 
-void* LinkedList_replace(LinkedList_T oLinkedList, const char *pcKey, 
-   const void *pvValue) {
-   const void *outItem;
-   struct Node *psCurr;
-   assert( oLinkedList != NULL);
-   assert(pcKey != NULL);
-   psCurr = oLinkedList->psFirst;
-   while(psCurr != NULL && strcmp(psCurr->pvKey, pcKey) != 0){
-      psCurr = psCurr->psNext;
-   }
-   if (psCurr == NULL) {
-      return 0;
-   }
-   outItem = (void*) psCurr->pvItem;
-   psCurr->pvItem = pvValue;
-   return (void*) outItem;
-}
-
 void *LinkedList_remove(LinkedList_T oLinkedList, const char *pcKey) {
    struct Node*removalNode;
    const void* outItem;
