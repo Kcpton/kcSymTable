@@ -233,6 +233,7 @@ SymTable_T SymTable_resize(SymTable_T oldSymTable, size_t new_bucketnum) {
       i++;
     }
     SymTable_free(oldSymTable);
+    oldSymTable = newSymTable;
     return newSymTable;
 }
 
@@ -251,7 +252,7 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey,
         oSymTable->length += 1;
     }
     if (oSymTable->length == 510) {
-        oSymTable = resize(oSymTable, 0);
+        resize(oSymTable, 0);
     }
     return output;
     }
