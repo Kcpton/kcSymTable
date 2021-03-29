@@ -226,12 +226,13 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey,
        oSymTable->psArray[hashval] = LinkedList_new();
     }
     output = LinkedList_put(oSymTable->psArray[hashval], pcKey, pvValue);
-    if (oSymTable->length == 510 ) {
+    if (oSymTable->length == 510 && oSymTable->maxbucket == 510) {
         LinkedList_T* oldArray = oSymTable->psArray;
         size_t bucketLen;
         size_t i = 0;
         struct Node* head;
         bucketLen = oSymTable->maxbucket;
+        oSymTable->maxbucket = 1021;
         oSymTable->length = 0;
         while(i < bucketLen) {
             head = NULL;
