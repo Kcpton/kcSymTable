@@ -216,6 +216,8 @@ size_t SymTable_getLength(SymTable_T oSymTable) {
    return oSymTable->length;
 }
 
+SymTable_T resize(SymTable_T oldSymTable, size_t new_bucketnum);
+
 int SymTable_put(SymTable_T oSymTable, const char *pcKey, 
     const void *pvValue) {
     size_t hashval;
@@ -320,7 +322,7 @@ void SymTable_map(SymTable_T oSymTable,
 }
 
 SymTable_T resize(SymTable_T oldSymTable, size_t new_bucketnum) {
-    SymTable_T newSymTable = SymTable_new_help(new_bucket);
+    SymTable_T newSymTable = SymTable_new_help(new_bucketnum);
     size_t bucketLen;
     size_t i = 0;
     struct Node* head;
