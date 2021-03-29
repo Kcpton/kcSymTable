@@ -210,7 +210,7 @@ SymTable_T SymTable_new_help(size_t bucketnum) {
 }
 
 SymTable_T SymTable_new(void) {
-   return SymTable_new_help(auBucketCounts[0]);
+   return SymTable_new_help(0);
 }
 
 
@@ -260,7 +260,6 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey,
     oSymTable-> length < sizeof(auBucketCounts)/sizeof(auBucketCounts[0])) {
         oSymTable = SymTable_resize(oSymTable, oSymTable->bucketnum + 1);
     }
-    */
     return output;
     }
 
