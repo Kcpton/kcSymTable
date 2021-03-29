@@ -310,7 +310,9 @@ void SymTable_map(SymTable_T oSymTable,
     assert(oSymTable != NULL);
     bucketLen = oSymTable->maxbucket;
     while(i < bucketLen) {
+      if (oSymTable->psArray[i] != NULL) {
       LinkedList_map(oSymTable->psArray[i], pfApply, pvExtra);
+      }
       i++;
     }
 }
