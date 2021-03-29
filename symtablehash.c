@@ -164,7 +164,6 @@ void LinkedList_free(LinkedList_T oLinkedList) {
       free(curr->pvKey);
       free(curr);
    }
-   free(oLinkedList);
 }
 
 void LinkedList_map(LinkedList_T oLinkedList,
@@ -283,7 +282,7 @@ void SymTable_free(SymTable_T oSymTable) {
         if(pCurr + bucketLen - 1 - i != NULL) {
             LinkedList_free(pCurr + i);
         }
-        i -= 1;
+        i += 1;
     }
     free(oSymTable);
 }
