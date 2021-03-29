@@ -164,7 +164,6 @@ void LinkedList_free(LinkedList_T oLinkedList) {
       free(curr->pvKey);
       free(curr);
    }
-   free(oLinkedList);
 }
 
 void LinkedList_map(LinkedList_T oLinkedList,
@@ -272,7 +271,7 @@ void* SymTable_remove(SymTable_T oSymTable, const char *pcKey) {
     }
 
 void SymTable_free(SymTable_T oSymTable) {
-    /* size_t bucketLen;
+    size_t bucketLen;
     size_t i = 0;
     struct LinkedList* pCurr;
     assert(oSymTable != NULL);
@@ -285,7 +284,6 @@ void SymTable_free(SymTable_T oSymTable) {
         i += 1;
     }
     free(oSymTable);
-    */
 }
 
 void SymTable_map(SymTable_T oSymTable,
