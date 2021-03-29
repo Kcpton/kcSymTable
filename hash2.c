@@ -237,6 +237,8 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey,
         bucketLen = oSymTable->maxbucket;
         oSymTable->maxbucket = 1021;
         oSymTable->length = 0;
+        oSymTable->psArray = (LinkedList_T*) calloc(sizeof(LinkedList_T),
+        (oSymTable->maxbucket)); 
         while(i < bucketLen) {
             head = NULL;
             if (oSymTable->psArray[i] != NULL) {
