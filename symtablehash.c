@@ -34,7 +34,7 @@ struct SymTable {
 
 LinkedList_T LinkedList_new(void) {
    LinkedList_T oLinkedList;
-   oLinkedList = (LinkedList_T*) malloc(sizeof(struct LinkedList));
+   oLinkedList = (LinkedList_T) malloc(sizeof(struct LinkedList));
    if (oLinkedList == NULL) {
       return NULL;
    }
