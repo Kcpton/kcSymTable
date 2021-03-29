@@ -196,10 +196,6 @@ static size_t SymTable_hash(const char *pcKey, size_t uBucketCount) {
     return uHash % uBucketCount;
     }
 
-SymTable_T SymTable_new(void) {
-   return SymTable_new_help(auBucketCounts[0]);
-}
-
 SymTable_T SymTable_new_help(size_t maxbucket) {
     SymTable_T oSymTable;
     oSymTable = (SymTable_T) malloc(sizeof(struct SymTable));
@@ -210,6 +206,11 @@ SymTable_T SymTable_new_help(size_t maxbucket) {
         * (maxbucket)); 
     return oSymTable;
 }
+
+SymTable_T SymTable_new(void) {
+   return SymTable_new_help(auBucketCounts[0]);
+}
+
 
 size_t SymTable_getLength(SymTable_T oSymTable) {
    return oSymTable->length;
