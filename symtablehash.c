@@ -29,7 +29,7 @@ struct LinkedList
 struct SymTable {
     size_t maxbucket;
     size_t length;
-    struct LinkedList** psArray;
+    LinkedList_T* psArray;
 };
 
 LinkedList_T LinkedList_new(void) {
@@ -177,7 +177,7 @@ void LinkedList_map(LinkedList_T oLinkedList,
    for (psCurr = oLinkedList->psFirst;
         psCurr != NULL;
         psCurr = psCurr->psNext)
-      (*pfApply)((void*)psCurr->pvItem, (void *)psCurr->pvKey, (void*)pvExtra);
+      (*pfApply)((void*)psCurr->pvKey, (void *)psCurr->pvItem, (void*)pvExtra);
 }
 
 /* Return a hash code for pcKey that is between 0 and uBucketCount-1,
@@ -200,7 +200,7 @@ SymTable_T SymTable_new_help(size_t maxbucket) {
     oSymTable = (SymTable_T) malloc(sizeof(struct SymTable));
     oSymTable->length = 0;
     oSymTable->maxbucket = maxbucket;
-    oSymTable->psArray = (LinkedList_T*) malloc(sizeof(struct LinkedList) *
+    oSymTable->psArray = (struct LinkedList*) calloc(sizeof(struct LinkedList),
         (maxbucket)); 
     return oSymTable;
 }
@@ -221,10 +221,10 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey,
     assert(oSymTable != NULL);
     assert(pcKey != NULL);
     hashval = SymTable_hash(pcKey, oSymTable->maxbucket);
-    if(*(oSymTable->psArray + hashval) == NULL) {
-       *(oSymTable->psArray + hashval) = LinkedList_new();
+    if (oSymTable->psArray[hashval] == NULL) {
+       oSymTable->psArray[hashval] = LinkedList_new();
     }
-    output = LinkedList_put(oSymTable->psArray + hashval, pcKey, pvValue);
+    output = LinkedList_put(oSymTable->psArray[hashval], pcKey, pvValue);
     if (output) {
         oSymTable->length += 1;
     }
@@ -236,7 +236,7 @@ int SymTable_contains(SymTable_T oSymTable, const char *pcKey) {
     assert(oSymTable != NULL);
     assert(pcKey != NULL);
     hashval = SymTable_hash(pcKey, oSymTable->maxbucket);
-    return LinkedList_contains(oSymTable->psArray + hashval, pcKey);
+    return LinkedList_contains(oSymTable->psArray[hashval], pcKey);
     }
 
 void* SymTable_get(SymTable_T oSymTable, const char *pcKey) {
@@ -244,7 +244,7 @@ void* SymTable_get(SymTable_T oSymTable, const char *pcKey) {
     assert(oSymTable != NULL);
     assert(pcKey != NULL);
     hashval = SymTable_hash(pcKey, oSymTable->maxbucket);
-    return LinkedList_get(oSymTable->psArray + hashval, pcKey);
+    return LinkedList_get(oSymTable->psArray[hashval], pcKey);
     }
 
 void* SymTable_replace(SymTable_T oSymTable, const char *pcKey, 
@@ -253,7 +253,7 @@ void* SymTable_replace(SymTable_T oSymTable, const char *pcKey,
     assert(oSymTable != NULL);
     assert(pcKey != NULL);
     hashval = SymTable_hash(pcKey, oSymTable->maxbucket);
-    return LinkedList_replace(oSymTable->psArray + hashval, pcKey,
+    return LinkedList_replace(oSymTable->psArray[hashval], pcKey,
     pvValue);
     }
 
@@ -264,9 +264,9 @@ void* SymTable_remove(SymTable_T oSymTable, const char *pcKey) {
     assert(oSymTable != NULL);
     assert(pcKey != NULL);
     hashval = SymTable_hash(pcKey, oSymTable->maxbucket);
-    prevlen = LinkedList_getLength(oSymTable->psArray + hashval);
-    output = LinkedList_remove(oSymTable->psArray + hashval, pcKey);
-    if (prevlen > LinkedList_getLength(oSymTable->psArray + hashval)) {
+    prevlen = LinkedList_getLength(oSymTable->psArray[hashval]);
+    output = LinkedList_remove(oSymTable->psArray[hashval], pcKey);
+    if (prevlen > LinkedList_getLength(oSymTable->psArray[hashval])) {
         oSymTable->length -= 1;
     }
     return output;
@@ -295,18 +295,13 @@ void SymTable_map(SymTable_T oSymTable,
     const void *pvExtra) {
     size_t bucketLen;
     size_t i = 0;
-    struct LinkedList arrayCurrent;
+    LinkedList_T arrayCurrent;
     struct Node* psCurr;
     assert(oSymTable != NULL);
     bucketLen = oSymTable->maxbucket;
     while(i < bucketLen) {
-      psCurr = oSymTable->psArray[i].psFirst;
-      for (;
-        psCurr != NULL;
-        psCurr = psCurr->psNext)
-        printf("hi");
-      (*pfApply)((void*)psCurr->pvKey, (void *)psCurr->pvItem, (void*)pvExtra);
-      i += 1;
+      LinkedList_map(oSymTable->psArray[i], pfApply, pvExtra);
+      i++;
     }
 }
     
