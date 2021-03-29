@@ -236,6 +236,7 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey,
     oSymTable-> length < sizeof(auBucketCounts)/sizeof(auBucketCounts[0])) {
         size_t new_bucketnum = oSymTable->bucketnum +1;
         SymTable_T newSymTable = SymTable_new_help(new_bucketnum);
+        SymTable_T oldSymTable = oSymTable;
         size_t bucketLen;
         size_t i = 0;
         struct Node* head;
@@ -251,8 +252,8 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey,
         }
         i++;
         }
-        SymTable_free(oSymTable);
         oSymTable = newSymTable;
+        free(oSymTable);
     }
     return output;
     }
