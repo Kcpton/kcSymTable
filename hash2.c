@@ -226,6 +226,9 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey,
        oSymTable->psArray[hashval] = LinkedList_new();
     }
     output = LinkedList_put(oSymTable->psArray[hashval], pcKey, pvValue);
+    if (output) {
+        oSymTable->length += 1;
+    }
     if (oSymTable->length == 510 && oSymTable->maxbucket == 510) {
         LinkedList_T* oldArray = oSymTable->psArray;
         size_t bucketLen;
@@ -250,9 +253,6 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey,
             LinkedList_free(oldArray[i]);
             }
         }
-    }
-    if (output) {
-        oSymTable->length += 1;
     }
     return output;
     }
