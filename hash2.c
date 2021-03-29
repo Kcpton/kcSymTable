@@ -256,10 +256,11 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey,
     if (output) {
         oSymTable->length += 1;
     }
-    if (oSymTable->length > auBucketCounts[oSymTable->bucketnum] && 
+    /*if (oSymTable->length > auBucketCounts[oSymTable->bucketnum] && 
     oSymTable-> length < sizeof(auBucketCounts)/sizeof(auBucketCounts[0])) {
         oSymTable = SymTable_resize(oSymTable, oSymTable->bucketnum + 1);
     }
+    */
     return output;
     }
 
