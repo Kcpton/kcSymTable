@@ -272,13 +272,13 @@ void* SymTable_remove(SymTable_T oSymTable, const char *pcKey) {
 void SymTable_free(SymTable_T oSymTable) {
     size_t bucketLen;
     size_t i = 0;
-    struct LinkedList** pCurr;
+    struct LinkedList* pCurr;
     assert(oSymTable != NULL);
     bucketLen = oSymTable->maxbucket;
-    pCurr =  (LinkedList_T) (oSymTable->psArray);
-    i = bucketLen;
+    pCurr =  (struct LinkedList*) (oSymTable->psArray);
+    i = 0;
     while(i < bucketLen) {
-        if(*(pCurr + i) != NULL) {
+        if((pCurr + i) != NULL) {
             LinkedList_free(pCurr + i);
         }
         i += 1;
