@@ -200,7 +200,7 @@ SymTable_T SymTable_new_help(size_t maxbucket) {
     oSymTable = (SymTable_T) malloc(sizeof(struct SymTable));
     oSymTable->length = 0;
     oSymTable->maxbucket = maxbucket;
-    oSymTable->psArray = (struct Node**) malloc(sizeof(struct LinkedList)
+    oSymTable->psArray = (struct LinkedList*) malloc(sizeof(struct LinkedList)
         * (maxbucket)); 
     return oSymTable;
 }
