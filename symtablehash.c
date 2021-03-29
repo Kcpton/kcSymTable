@@ -270,6 +270,7 @@ void* SymTable_remove(SymTable_T oSymTable, const char *pcKey) {
     }
 
 void SymTable_free(SymTable_T oSymTable) {
+    /*
     size_t bucketLen;
     size_t i = 0;
     struct LinkedList* pCurr;
@@ -284,6 +285,7 @@ void SymTable_free(SymTable_T oSymTable) {
         i += 1;
     }
     free(oSymTable);
+    */
 }
 
 void SymTable_map(SymTable_T oSymTable,
