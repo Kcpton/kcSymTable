@@ -277,9 +277,9 @@ void SymTable_free(SymTable_T oSymTable) {
     struct LinkedList* pCurr;
     assert(oSymTable != NULL);
     bucketLen = oSymTable->maxbucket;
-    pCurr =  oSymTable->psFirst;
+    pCurr =  (struct LinkedList*) (oSymTable->psFirst);
     while(i < bucketLen) {
-        if((pCurr + i) != NULL) {
+        if(pCurr + i != NULL) {
             LinkedList_free(pCurr + i);
         }
         i += 1;
