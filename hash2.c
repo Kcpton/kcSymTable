@@ -230,7 +230,7 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey,
         oSymTable->length += 1;
     }
     if (oSymTable->length == 510) {
-        LinkedList_T* oldArray;
+        LinkedList_T* oldArray = oSymTable->psArray;
         size_t bucketLen;
         size_t i = 0;
         struct Node* head;
