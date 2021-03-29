@@ -26,7 +26,7 @@ struct LinkedList
    struct Node *psFirst;
    size_t length;
 };
-typedef struct SymTable {
+struct SymTable {
     size_t maxbucket;
     size_t length;
     LinkedList_T psFirst;
@@ -230,8 +230,7 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey,
     return output;
     }
 
-int SymTable_contains(SymTable_T oSymTable, const char *pcKey, 
-    const void *pvValue) {
+int SymTable_contains(SymTable_T oSymTable, const char *pcKey) {
     size_t hashval;
     assert(oSymTable != NULL);
     assert(pcKey != NULL);
@@ -239,8 +238,7 @@ int SymTable_contains(SymTable_T oSymTable, const char *pcKey,
     return LinkedList_contains(oSymTable->psFirst + hashval, pcKey);
     }
 
-int SymTable_get(SymTable_T oSymTable, const char *pcKey, 
-    const void *pvValue) {
+void* SymTable_get(SymTable_T oSymTable, const char *pcKey) {
     size_t hashval;
     assert(oSymTable != NULL);
     assert(pcKey != NULL);
@@ -248,7 +246,7 @@ int SymTable_get(SymTable_T oSymTable, const char *pcKey,
     return LinkedList_get(oSymTable->psFirst + hashval, pcKey);
     }
 
-int SymTable_replace(SymTable_T oSymTable, const char *pcKey, 
+void* SymTable_replace(SymTable_T oSymTable, const char *pcKey, 
     const void *pvValue) {
     size_t hashval;
     assert(oSymTable != NULL);
@@ -258,7 +256,7 @@ int SymTable_replace(SymTable_T oSymTable, const char *pcKey,
     pvValue);
     }
 
-int SymTable_remove(SymTable_T oSymTable, const char *pcKey) {
+void* SymTable_remove(SymTable_T oSymTable, const char *pcKey) {
     size_t hashval;
     void* output;
     size_t prevlen;
