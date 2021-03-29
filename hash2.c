@@ -33,7 +33,7 @@ struct SymTable {
     LinkedList_T* psArray;
 };
 
-SymTable_T resize(SymTable_T oldSymTable, size_t new_bucketnum);
+
 
 LinkedList_T LinkedList_new(void) {
    LinkedList_T oLinkedList;
@@ -218,6 +218,30 @@ size_t SymTable_getLength(SymTable_T oSymTable) {
    return oSymTable->length;
 }
 
+SymTable_T resize(SymTable_T oldSymTable, size_t new_bucketnum) {
+    SymTable_T newSymTable = SymTable_new_help(new_bucketnum);
+    size_t bucketLen;
+    size_t i = 0;
+    struct Node* head;
+    assert(oldSymTable != NULL);
+    bucketLen = oldSymTable->maxbucket;
+    while(i < bucketLen) {
+      head = NULL;
+      if (oldSymTable->psArray[i] != NULL) {
+      head = oldSymTable->psArray[i]->psFirst;
+      }
+      while (head != NULL) {
+          SymTable_put(newSymTable, head->pvKey, head->pvItem);
+          head = head->psNext;
+      }
+      i++;
+    }
+    SymTable_free(oldSymTable);
+    return newSymTable;
+}
+
+
+
 int SymTable_put(SymTable_T oSymTable, const char *pcKey, 
     const void *pvValue) {
     size_t hashval;
@@ -234,26 +258,7 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey,
     }
     if (oSymTable->length > auBucketCounts[oSymTable->bucketnum] && 
     oSymTable-> length < sizeof(auBucketCounts)/sizeof(auBucketCounts[0])) {
-        size_t new_bucketnum = oSymTable->bucketnum +1;
-        SymTable_T newSymTable = SymTable_new_help(new_bucketnum);
-        SymTable_T oldSymTable = oSymTable;
-        size_t bucketLen;
-        size_t i = 0;
-        struct Node* head;
-        bucketLen = oSymTable->maxbucket;
-        while(i < bucketLen) {
-        head = NULL;
-        if (oSymTable->psArray[i] != NULL) {
-        head = oSymTable->psArray[i]->psFirst;
-        }
-        while (head != NULL) {
-            SymTable_put(newSymTable, head->pvKey, head->pvItem);
-            head = head->psNext;
-        }
-        i++;
-        }
-        oSymTable = newSymTable;
-        free(oldSymTable);
+        oSymTable = reszie(oSymTable, oSymTable->bucketnum + 1);
     }
     return output;
     }
@@ -340,24 +345,3 @@ void SymTable_map(SymTable_T oSymTable,
     }
 }
 
-SymTable_T resize(SymTable_T oldSymTable, size_t new_bucketnum) {
-    SymTable_T newSymTable = SymTable_new_help(new_bucketnum);
-    size_t bucketLen;
-    size_t i = 0;
-    struct Node* head;
-    assert(oldSymTable != NULL);
-    bucketLen = oldSymTable->maxbucket;
-    while(i < bucketLen) {
-      head = NULL;
-      if (oldSymTable->psArray[i] != NULL) {
-      head = oldSymTable->psArray[i]->psFirst;
-      }
-      while (head != NULL) {
-          SymTable_put(newSymTable, head->pvKey, head->pvItem);
-          head = head->psNext;
-      }
-      i++;
-    }
-    SymTable_free(oldSymTable);
-    return newSymTable;
-}
