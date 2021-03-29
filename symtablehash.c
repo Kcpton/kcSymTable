@@ -173,7 +173,7 @@ void LinkedList_map(LinkedList_T oLinkedList,
 
    assert(oLinkedList != NULL);
    assert(pfApply != NULL);
-   stdout("hi");
+   printf("hi");
 
    for (psCurr = oLinkedList->psFirst;
         psCurr != NULL;
