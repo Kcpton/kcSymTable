@@ -249,7 +249,6 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey,
             LinkedList_free(oldArray[i]);
             }
         }
-        oSymTable->length = 510;
     }
     if (output) {
         oSymTable->length += 1;
