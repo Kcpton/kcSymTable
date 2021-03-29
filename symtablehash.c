@@ -29,7 +29,7 @@ struct LinkedList
 struct SymTable {
     size_t maxbucket;
     size_t length;
-    struct LinkedList* psArray;
+    struct LinkedList** psArray;
 };
 
 LinkedList_T LinkedList_new(void) {
@@ -200,8 +200,8 @@ SymTable_T SymTable_new_help(size_t maxbucket) {
     oSymTable = (SymTable_T) malloc(sizeof(struct SymTable));
     oSymTable->length = 0;
     oSymTable->maxbucket = maxbucket;
-    oSymTable->psArray = (struct LinkedList*) malloc(sizeof(struct LinkedList)
-        * (maxbucket)); 
+    oSymTable->psArray = (LinkedList_T*) malloc(sizeof(struct LinkedList) *
+        (maxbucket)); 
     return oSymTable;
 }
 
@@ -221,6 +221,9 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey,
     assert(oSymTable != NULL);
     assert(pcKey != NULL);
     hashval = SymTable_hash(pcKey, oSymTable->maxbucket);
+    if(*(oSymTable->psArray + hashval) == NULL) {
+       *(oSymTable->psArray + hashval) = LinkedList_new();
+    }
     output = LinkedList_put(oSymTable->psArray + hashval, pcKey, pvValue);
     if (output) {
         oSymTable->length += 1;
@@ -301,6 +304,7 @@ void SymTable_map(SymTable_T oSymTable,
       for (;
         psCurr != NULL;
         psCurr = psCurr->psNext)
+        printf("hi");
       (*pfApply)((void*)psCurr->pvKey, (void *)psCurr->pvItem, (void*)pvExtra);
       i += 1;
     }
