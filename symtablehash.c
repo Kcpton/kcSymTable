@@ -247,6 +247,9 @@ void* SymTable_get(SymTable_T oSymTable, const char *pcKey) {
     assert(oSymTable != NULL);
     assert(pcKey != NULL);
     hashval = SymTable_hash(pcKey, oSymTable->maxbucket);
+    if (oSymTable->psArray[hashval] == NULL) {
+       return NULL;
+    }
     return LinkedList_get(oSymTable->psArray[hashval], pcKey);
     }
 
@@ -256,6 +259,9 @@ void* SymTable_replace(SymTable_T oSymTable, const char *pcKey,
     assert(oSymTable != NULL);
     assert(pcKey != NULL);
     hashval = SymTable_hash(pcKey, oSymTable->maxbucket);
+    if (oSymTable->psArray[hashval] == NULL) {
+       return NULL;
+    }
     return LinkedList_replace(oSymTable->psArray[hashval], pcKey,
     pvValue);
     }
@@ -267,6 +273,9 @@ void* SymTable_remove(SymTable_T oSymTable, const char *pcKey) {
     assert(oSymTable != NULL);
     assert(pcKey != NULL);
     hashval = SymTable_hash(pcKey, oSymTable->maxbucket);
+    if (oSymTable->psArray[hashval] == NULL) {
+       return 0;
+    }
     prevlen = LinkedList_getLength(oSymTable->psArray[hashval]);
     output = LinkedList_remove(oSymTable->psArray[hashval], pcKey);
     if (prevlen > LinkedList_getLength(oSymTable->psArray[hashval])) {
