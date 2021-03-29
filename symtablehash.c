@@ -298,7 +298,7 @@ void SymTable_map(SymTable_T oSymTable,
     pCurr =  oSymTable->psArray;
     while(i < bucketLen) {
         if((pCurr + i) != NULL) {
-            LinkedList_map(pCurr + i, &pfApply, pvExtra);
+            LinkedList_map(pCurr + i, *pfApply, pvExtra);
         }
         i += 1;
     }
