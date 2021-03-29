@@ -29,11 +29,8 @@ struct LinkedList
 struct SymTable {
     size_t maxbucket;
     size_t length;
-    size_t bucketnum;
     LinkedList_T* psArray;
 };
-
-
 
 LinkedList_T LinkedList_new(void) {
    LinkedList_T oLinkedList;
@@ -198,19 +195,18 @@ static size_t SymTable_hash(const char *pcKey, size_t uBucketCount) {
     return uHash % uBucketCount;
     }
 
-SymTable_T SymTable_new_help(size_t bucketnum, size_t len) {
+SymTable_T SymTable_new_help(size_t maxbucket) {
     SymTable_T oSymTable;
     oSymTable = (SymTable_T) malloc(sizeof(struct SymTable));
-    oSymTable->length = len;
-    oSymTable->maxbucket = auBucketCounts[bucketnum];
+    oSymTable->length = 0;
+    oSymTable->maxbucket = maxbucket;
     oSymTable->psArray = (LinkedList_T*) calloc(sizeof(LinkedList_T),
-        (oSymTable->maxbucket));
-    oSymTable->bucketnum = bucketnum;
+        (maxbucket)); 
     return oSymTable;
 }
 
 SymTable_T SymTable_new(void) {
-   return SymTable_new_help(0,0);
+   return SymTable_new_help(auBucketCounts[0]);
 }
 
 
@@ -219,10 +215,11 @@ size_t SymTable_getLength(SymTable_T oSymTable) {
 }
 
 void SymTable_resize(SymTable_T oldSymTable, size_t new_bucketnum) {
-    SymTable_T newSymTable = SymTable_new_help(new_bucketnum,oldSymTable->length);
+    SymTable_T newSymTable = SymTable_new_help(auBucketCounts[1]);
     size_t bucketLen;
     size_t i = 0;
     struct Node* head;
+    newSymTable->length = oldSymTable->length;
     bucketLen = oldSymTable->maxbucket;
     while(i < bucketLen) {
       head = NULL;
@@ -236,10 +233,8 @@ void SymTable_resize(SymTable_T oldSymTable, size_t new_bucketnum) {
       i++;
     }
     SymTable_free(oldSymTable);
-    oldSymTable = newSymTable;
+    return newSymTable;
 }
-
-
 
 int SymTable_put(SymTable_T oSymTable, const char *pcKey, 
     const void *pvValue) {
@@ -255,9 +250,8 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey,
     if (output) {
         oSymTable->length += 1;
     }
-    if (oSymTable->length > oSymTable->maxbucket && 
-    oSymTable->bucketnum < sizeof(auBucketCounts)/sizeof(auBucketCounts[0])) {
-        SymTable_resize(oSymTable, oSymTable->bucketnum + 1);
+    if (oSymTable->length == 510) {
+        oSymTable = resize(oSymTable, 0);
     }
     return output;
     }
