@@ -293,12 +293,18 @@ void SymTable_map(SymTable_T oSymTable,
     size_t bucketLen;
     size_t i = 0;
     struct LinkedList *pCurr;
+    struct Node* psCurr;
     assert(oSymTable != NULL);
     bucketLen = oSymTable->maxbucket;
     pCurr =  oSymTable->psArray;
     while(i < bucketLen) {
-         LinkedList_map(pCurr + i, pfApply, pvExtra);
-        i += 1;
+      psCurr = pCurr->psFirst;
+      for (psCurr = pCurr->psFirst;
+        psCurr != NULL;
+        psCurr = psCurr->psNext)
+      (*pfApply)((void*)psCurr->pvKey, (void *)psCurr->pvItem, (void*)pvExtra);
+      i += 1;
+      psCurr++;
     }
 }
     
