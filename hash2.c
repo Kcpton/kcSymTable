@@ -33,6 +33,8 @@ struct SymTable {
     LinkedList_T* psArray;
 };
 
+SymTable_T resize(SymTable_T oldSymTable, size_t new_bucketnum);
+
 LinkedList_T LinkedList_new(void) {
    LinkedList_T oLinkedList;
    oLinkedList = (LinkedList_T) malloc(sizeof(struct LinkedList));
@@ -215,8 +217,6 @@ SymTable_T SymTable_new(void) {
 size_t SymTable_getLength(SymTable_T oSymTable) {
    return oSymTable->length;
 }
-
-SymTable_T resize(SymTable_T oldSymTable, size_t new_bucketnum);
 
 int SymTable_put(SymTable_T oSymTable, const char *pcKey, 
     const void *pvValue) {
