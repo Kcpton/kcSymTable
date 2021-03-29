@@ -26,6 +26,11 @@ struct LinkedList
    struct Node *psFirst;
    size_t length;
 };
+typedef struct SymTable {
+    size_t maxbucket;
+    size_t length;
+    LinkedList_T psFirst;
+};
 
 LinkedList_T LinkedList_new(void) {
    LinkedList_T oLinkedList;
@@ -190,12 +195,6 @@ static size_t SymTable_hash(const char *pcKey, size_t uBucketCount) {
         
     return uHash % uBucketCount;
     }
-
-typedef struct SymTable {
-    size_t maxbucket;
-    size_t length;
-    LinkedList_T psFirst;
-};
 
 SymTable_T SymTable_new(void) {
    return SymTable_new_help(auBucketCounts[0]);
