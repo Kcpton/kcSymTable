@@ -29,6 +29,7 @@ struct LinkedList
 struct SymTable {
     size_t maxbucket;
     size_t length;
+    size_t bucketnum;
     LinkedList_T* psArray;
 };
 
@@ -202,6 +203,7 @@ SymTable_T SymTable_new_help(size_t maxbucket) {
     oSymTable->maxbucket = maxbucket;
     oSymTable->psArray = (LinkedList_T*) calloc(sizeof(LinkedList_T),
         (maxbucket)); 
+    oSymTable->bucketnum = 0;
     return oSymTable;
 }
 
@@ -229,13 +231,14 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey,
     if (output) {
         oSymTable->length += 1;
     }
-    if (oSymTable->length == 510 && oSymTable->maxbucket == 510) {
+    if (oSymTable->length == oSymTable->maxbucket && oSymTable->bucketnum < 
+         sizeof(auBucketCounts)/sizeof(auBucketCounts[0])) {
         LinkedList_T* oldArray = oSymTable->psArray;
         size_t bucketLen;
         size_t i = 0;
         struct Node* head;
         bucketLen = oSymTable->maxbucket;
-        oSymTable->maxbucket = 1021;
+        oSymTable->maxbucket = auBucketCounts[oSymTable->bucketnum + 1];
         oSymTable->length = 0;
         oSymTable->psArray = (LinkedList_T*) calloc(sizeof(LinkedList_T),
         (oSymTable->maxbucket)); 
@@ -256,6 +259,7 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey,
             }
         }
     }
+    oSymTable->bucketnum += 1;
     return output;
     }
 
