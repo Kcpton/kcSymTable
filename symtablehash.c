@@ -173,7 +173,6 @@ void LinkedList_map(LinkedList_T oLinkedList,
 
    assert(oLinkedList != NULL);
    assert(pfApply != NULL);
-   printf("hi");
 
    for (psCurr = oLinkedList->psFirst;
         psCurr != NULL;
@@ -298,9 +297,7 @@ void SymTable_map(SymTable_T oSymTable,
     bucketLen = oSymTable->maxbucket;
     pCurr =  oSymTable->psArray;
     while(i < bucketLen) {
-        if((pCurr + i) != NULL) {
-            LinkedList_map(pCurr + i, pfApply, pvExtra);
-        }
+         LinkedList_map(pCurr + i, pfApply, pvExtra);
         i += 1;
     }
 }
