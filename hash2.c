@@ -257,7 +257,7 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey,
     }
     if (oSymTable->length > auBucketCounts[oSymTable->bucketnum] && 
     oSymTable->bucketnum < sizeof(auBucketCounts)/sizeof(auBucketCounts[0])) {
-        oSymTable = SymTable_resize(oSymTable, oSymTable->bucketnum + 1);
+        SymTable_resize(oSymTable, oSymTable->bucketnum + 1);
     }
     return output;
     }
