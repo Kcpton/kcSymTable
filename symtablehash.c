@@ -203,9 +203,6 @@ SymTable_T SymTable_new(void) {
 SymTable_T SymTable_new_help(size_t maxbucket) {
     SymTable_T oSymTable;
     oSymTable = (SymTable_T) malloc(sizeof(struct SymTable));
-    if (oSymTable == NULL) {
-      return NULL;
-    }
     oSymTable->psFirst = NULL;
     oSymTable->length = 0;
     oSymTable->maxbucket = maxbucket;
