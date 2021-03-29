@@ -218,7 +218,7 @@ size_t SymTable_getLength(SymTable_T oSymTable) {
    return oSymTable->length;
 }
 
-SymTable_T resize(SymTable_T oldSymTable, size_t new_bucketnum) {
+SymTable_T SymTable_resize(SymTable_T oldSymTable, size_t new_bucketnum) {
     SymTable_T newSymTable = SymTable_new_help(new_bucketnum);
     size_t bucketLen;
     size_t i = 0;
@@ -258,7 +258,7 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey,
     }
     if (oSymTable->length > auBucketCounts[oSymTable->bucketnum] && 
     oSymTable-> length < sizeof(auBucketCounts)/sizeof(auBucketCounts[0])) {
-        oSymTable = reszie(oSymTable, oSymTable->bucketnum + 1);
+        oSymTable = SymTable_resize(oSymTable, oSymTable->bucketnum + 1);
     }
     return output;
     }
