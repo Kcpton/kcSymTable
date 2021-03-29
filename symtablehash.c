@@ -284,7 +284,6 @@ void SymTable_free(SymTable_T oSymTable) {
         }
         i += 1;
     }
-    free(oSymTable);
 }
 
 void SymTable_map(SymTable_T oSymTable,
