@@ -10,7 +10,7 @@ int main(void) {
     char acJeter[] = "Jeter";
     int b = 3;
     int * a = &b;
-    SymTable_put(oSymTable,acJeter,a);
+    /* SymTable_put(oSymTable,acJeter,a); */
     SymTable_free(oSymTable);
     return 0;
 }
