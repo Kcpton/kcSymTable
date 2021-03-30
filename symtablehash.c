@@ -202,11 +202,10 @@ static size_t SymTable_hash(const char *pcKey, size_t uBucketCount) {
 SymTable_T SymTable_new(void) {
    SymTable_T oSymTable;
    oSymTable = (SymTable_T) malloc(sizeof(struct SymTable));
-   oSymTable->length = 0;
-   oSymTable->maxbucket = auBucketCounts[0];
-   /*oSymTable->psArray = (LinkedList_T*) calloc(sizeof(LinkedList_T),
+   /* oSymTable->length = 0; */
+   /* oSymTable->maxbucket = auBucketCounts[0]; */
+   oSymTable->psArray = (LinkedList_T*) calloc(sizeof(LinkedList_T),
         (oSymTable->maxbucket)); 
-        */
    oSymTable->bucketnum = 0;
    return oSymTable;
 }
