@@ -244,7 +244,9 @@ size_t SymTable_getLength(SymTable_T oSymTable) {
    return oSymTable->length;
 }
 
-
+/* SymTable_put hashes the pcKey and puts the binding pair into
+   the oSymTable. If the SymTable length is equal to maxbucket, it
+   resizes. */
 int SymTable_put(SymTable_T oSymTable, const char *pcKey, 
     const void *pvValue) {
     size_t hashval;
