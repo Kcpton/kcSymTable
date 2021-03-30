@@ -10,6 +10,10 @@
 #include <stdlib.h>
 #include <stddef.h>
 
+/* Note: For the sake of modularity This file uses all the functions 
+   from symtablelist.c to implement all the linkedlist in the symtable. 
+   Skip to SymTable_hash for all the Symtable function.*/
+
 /* auBucketCounts contains the different dimensions in size_t that
    the hash table could have */
 static const size_t auBucketCounts[] = {509, 1021, 2039, 4093, 8191, 
@@ -215,6 +219,10 @@ void LinkedList_map(LinkedList_T oLinkedList,
         psCurr = psCurr->psNext)
       (*pfApply)((void*)psCurr->pvKey, (void *)psCurr->pvItem, (void*)pvExtra);
 }
+
+/* Actual New Code Starts here. All the code above is from the symtablelist.c
+   file */
+
 
 /* Return a hash code for pcKey that is between 0 and uBucketCount-1,
         inclusive. */
