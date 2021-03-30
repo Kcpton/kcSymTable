@@ -284,9 +284,8 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey,
         if(oSymTable->psArray == NULL) {
            oSymTable->maxbucket = auBucketCounts[oSymTable->bucketnum - 1];
            oSymTable->psArray = oldArray;
-           return output;
         }
-        oSymTable->length = 0;
+        oSymTable->length = 1;
         /* puts all the old bindings in the new Symtable */
         while(i < bucketLen) {
             head = NULL;
