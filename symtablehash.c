@@ -268,20 +268,58 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey,
     }
     /* this if statement contains the resizing of the oSymTable if the
       SymTable length is equal to the maxbucket length */
+   /*
     if (oSymTable->length == oSymTable->maxbucket && oSymTable->bucketnum < 
          sizeof(auBucketCounts)/sizeof(auBucketCounts[0])) {
         LinkedList_T* oldArray = oSymTable->psArray;
-        LinkedList_T* newArray;
         size_t bucketLen;
         size_t i = 0;
         struct Node* head;
         bucketLen = oSymTable->maxbucket;
         oSymTable->maxbucket = auBucketCounts[oSymTable->bucketnum + 1];
         oSymTable->length = 0;
-        newArray = (LinkedList_T*) calloc(sizeof(LinkedList_T),
+        oSymTable->psArray = (LinkedList_T*) calloc(sizeof(LinkedList_T),
         (oSymTable->maxbucket)); 
-        oSymTable->psArray = newArray;
+        */
         /* puts all the old bindings in the new Symtable */
+        /*
+        while(i < bucketLen) {
+            head = NULL;
+            if (oSymTable->psArray[i] != NULL) {
+            head = oSymTable->psArray[i]->psFirst;
+            }
+            while (head != NULL) {
+                SymTable_put(oSymTable, head->pvKey, head->pvItem);
+                head = head->psNext;
+            }
+            i++;
+        }
+        i = 0;
+        /* frees all the old linkedlist */
+        /*
+        while(i < bucketLen) {
+            if (oldArray[i] != NULL) {
+            LinkedList_free(oldArray[i]);
+            }
+            i += 1;
+        }
+        free(oldArray);
+    }
+    */
+
+   if (oSymTable->length == oSymTable->maxbucket && oSymTable->length == 
+      auBucketCounts[oSymTable->bucketnum] && oSymTable->bucketnum < 
+         sizeof(auBucketCounts)/sizeof(auBucketCounts[0])) {
+        LinkedList_T* oldArray = oSymTable->psArray;
+        size_t bucketLen;
+        size_t i = 0;
+        struct Node* head;
+        bucketLen = oSymTable->maxbucket;
+        oSymTable->bucketnum += 1;
+        oSymTable->maxbucket = auBucketCounts[oSymTable->bucketnum];
+        oSymTable->psArray = (LinkedList_T*) calloc(sizeof(LinkedList_T),
+        (oSymTable->maxbucket));
+        oSymTable->length = 0;
         while(i < bucketLen) {
             head = NULL;
             if (oldArray[i] != NULL) {
@@ -293,14 +331,12 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey,
             }
             i++;
         }
-        i = 0;
-        /* frees all the old linkedlist */
         while(i < bucketLen) {
             if (oldArray[i] != NULL) {
             LinkedList_free(oldArray[i]);
             }
-            i += 1;
         }
+        free(oldArray);
     }
 
 
