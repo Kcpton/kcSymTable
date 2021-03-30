@@ -307,7 +307,7 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey,
     }
     */
 
-   if (oSymTable->length == oSymTable->maxbucket && oSymTable->length = 
+   if (oSymTable->length == oSymTable->maxbucket && oSymTable->length == 
       auBucketCounts[oSymTable->bucketnum] && oSymTable->bucketnum < 
          sizeof(auBucketCounts)/sizeof(auBucketCounts[0])) {
         LinkedList_T* oldArray = oSymTable->psArray;
