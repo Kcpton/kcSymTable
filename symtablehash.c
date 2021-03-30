@@ -332,7 +332,6 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey,
         oSymTable->maxbucket = auBucketCounts[oSymTable->bucketnum];
         oSymTable->psArray = (LinkedList_T*) calloc(sizeof(LinkedList_T),
         (oSymTable->maxbucket));
-        oSymTable->length = 0;
         /* puts all the old bindings in the new Symtable */
         while(i < bucketLen) {
             head = NULL;
