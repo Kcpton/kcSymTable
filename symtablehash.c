@@ -251,6 +251,8 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey,
     int output;
     assert(oSymTable != NULL);
     assert(pcKey != NULL);
+    /* this portion hashes the string pcKey based on max bucket and
+      puts the binding pair into the oSymTable using LinkedList */
     hashval = SymTable_hash(pcKey, oSymTable->maxbucket);
     if (oSymTable->psArray[hashval] == NULL) {
        oSymTable->psArray[hashval] = LinkedList_new();
