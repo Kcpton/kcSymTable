@@ -130,7 +130,7 @@ void* LinkedList_get(LinkedList_T oLinkedList, const char *pcKey) {
       psCurr = psCurr->psNext;
    }
    if (psCurr == NULL) {
-      return 0;
+      return NULL;
    }
    return (void*) psCurr->pvItem;
 }
@@ -146,7 +146,7 @@ void* LinkedList_replace(LinkedList_T oLinkedList, const char *pcKey,
       psCurr = psCurr->psNext;
    }
    if (psCurr == NULL) {
-      return 0;
+      return NULL;
    }
    outItem = (void*) psCurr->pvItem;
    psCurr->pvItem = pvValue;
@@ -234,6 +234,9 @@ static size_t SymTable_hash(const char *pcKey, size_t uBucketCount) {
 
 SymTable_T SymTable_new(void) {
    SymTable_T oSymTable = (SymTable_T) malloc(sizeof(struct SymTable));
+   if (oSymTable == NULL) {
+      return NULL;
+   }
    oSymTable->length = 0;
    oSymTable->maxbucket = auBucketCounts[0];
    oSymTable->psArray = (LinkedList_T*) calloc(sizeof(LinkedList_T),
@@ -276,9 +279,14 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey,
         struct Node* head;
         bucketLen = oSymTable->maxbucket;
         oSymTable->maxbucket = auBucketCounts[oSymTable->bucketnum + 1];
-        oSymTable->length = 0;
         oSymTable->psArray = (LinkedList_T*) calloc(sizeof(LinkedList_T),
-        (oSymTable->maxbucket)); 
+        (oSymTable->maxbucket));
+        if(oSymTable->psArray == NULL) {
+           oSymTable->maxbucket = auBucketCounts[oSymTable->bucketnum - 1];
+           oSymTable->psArray = oldArray;
+           return output;
+        }
+        oSymTable->length = 0;
         /* puts all the old bindings in the new Symtable */
         while(i < bucketLen) {
             head = NULL;
@@ -300,8 +308,8 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey,
             i += 1;
         }
         free(oldArray);
+        oSymTable->bucketnum += 1;
     }
-    oSymTable->bucketnum += 1;
     return output;
     }
 
