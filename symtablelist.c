@@ -101,7 +101,7 @@ void* SymTable_get(SymTable_T oSymTable, const char *pcKey) {
       psCurr = psCurr->psNext;
    }
    if (psCurr == NULL) {
-      return 0;
+      return NULL;
    }
    return (void*) psCurr->pvItem;
 }
@@ -117,7 +117,7 @@ void* SymTable_replace(SymTable_T oSymTable, const char *pcKey,
       psCurr = psCurr->psNext;
    }
    if (psCurr == NULL) {
-      return 0;
+      return NULL;
    }
    outItem = (void*) psCurr->pvItem;
    psCurr->pvItem = pvValue;
