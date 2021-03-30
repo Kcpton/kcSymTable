@@ -118,7 +118,7 @@ static int LinkedList_put(LinkedList_T oLinkedList, const char *pcKey,
    return 1;
 }
 
-static int SymTable_putNode(SymTable_T oSymTable, struct Node* pNode) {
+static SymTable_putNode(SymTable_T oSymTable, struct Node* pNode) {
    size_t hashval = SymTable_hash(pNode->pvKey, oSymTable->maxbucket);
    LinkedList_T oLinkedList = oSymTable->psArray[hashval];
    pNode->psNext = oLinkedList->psFirst;
@@ -332,7 +332,7 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey,
             head = oldArray[i]->psFirst;
             }
             while (head != NULL) {
-                SymbTable_putNode(oSymTable, head);
+                SymTable_putNode(oSymTable, head);
                 head = head->psNext;
             }
             if (oldArray[i] != NULL) {
