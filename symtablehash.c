@@ -10,6 +10,8 @@
 #include <stdlib.h>
 #include <stddef.h>
 
+/* auBucketCounts contains the different dimensions in size_t that
+   the hash table could have */
 static const size_t auBucketCounts[] = {509, 1021, 2039, 4093, 8191, 
         16381, 32749, 65521};
 
@@ -257,6 +259,8 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey,
     if (output) {
         oSymTable->length += 1;
     }
+    /* this if statement contains the resizing of the oSymTable if the
+      SymTable length is equal to the maxbucket length */
     if (oSymTable->length == oSymTable->maxbucket && oSymTable->bucketnum < 
          sizeof(auBucketCounts)/sizeof(auBucketCounts[0])) {
         LinkedList_T* oldArray = oSymTable->psArray;
