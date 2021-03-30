@@ -68,6 +68,8 @@ struct SymTable {
     LinkedList_T* psArray;
 };
 
+
+/* LinkedList_new returns a new LinkedList_T */
 static LinkedList_T LinkedList_new(void) {
    LinkedList_T oLinkedList;
    oLinkedList = (LinkedList_T) malloc(sizeof(struct LinkedList));
@@ -79,10 +81,15 @@ static LinkedList_T LinkedList_new(void) {
    return oLinkedList;
 }
 
+/* LinkedList_getLength gets a oLinkedList and returns the
+   number of elements in the LinkedList_T. */
 static size_t LinkedList_getLength(LinkedList_T oLinkedList) {
    return oLinkedList->length;
 }
 
+/* LinkedList_put gets a oLinkedList, pcKey, and pvItem. Tries to
+   put the binding into the linkedlist. Returns 1 if successful, 
+   otherwise return 0. */
 static int LinkedList_put(LinkedList_T oLinkedList, const char *pcKey, 
    const void* pvItem) {
    struct Node *NewNode;
@@ -111,6 +118,8 @@ static int LinkedList_put(LinkedList_T oLinkedList, const char *pcKey,
    return 1;
 }
 
+/* LinkedList_contains gets a oLinkedList and pcKey, and returns 1 if the
+   key binding exist. Otherwise returns 0. */
 static int LinkedList_contains(LinkedList_T oLinkedList, const char *pcKey) {
    struct Node *psCurr;
    assert( oLinkedList != NULL);
@@ -125,6 +134,8 @@ static int LinkedList_contains(LinkedList_T oLinkedList, const char *pcKey) {
    return 1;
 }
 
+/* LinkedList_gets gets a oLinkedList and pcKey, and returns the value 
+   if the key binding exist. Otherwise returns NULL. */
 static void* LinkedList_get(LinkedList_T oLinkedList, const char *pcKey) {
    struct Node *psCurr;
    assert( oLinkedList != NULL);
@@ -139,6 +150,9 @@ static void* LinkedList_get(LinkedList_T oLinkedList, const char *pcKey) {
    return (void*) psCurr->pvItem;
 }
 
+/* LinkedList_replace gets a oLinkedList, pcKey and pvValue, and returns 
+   the replaces the oldValue related with the key with the new value. It
+   returns the oldValue if successful, otherwise return NULL. */
 static void* LinkedList_replace(LinkedList_T oLinkedList, const char *pcKey, 
    const void *pvValue) {
    const void *outItem;
@@ -157,7 +171,11 @@ static void* LinkedList_replace(LinkedList_T oLinkedList, const char *pcKey,
    return (void*) outItem;
 }
 
-static void *LinkedList_remove(LinkedList_T oLinkedList, const char *pcKey) {
+/* LinkedList_remove takes in a oLinkedList and a string pcKey. If the
+    string key is in the oLinkedList, remove the binding from the
+    oLinkedList and return the value. Otherwise return NULL. */
+static void *LinkedList_remove(LinkedList_T oLinkedList, 
+   const char *pcKey) {
    struct Node*removalNode;
    const void* outItem;
    struct Node *psCurr;
@@ -192,6 +210,8 @@ static void *LinkedList_remove(LinkedList_T oLinkedList, const char *pcKey) {
    return (void *) outItem;
 }
 
+/* LinkedList_free takes in a oLinkedList and free it and all of it's 
+    contents */
 static void LinkedList_free(LinkedList_T oLinkedList) {
    struct Node* curr;
    struct Node* next;
@@ -206,6 +226,10 @@ static void LinkedList_free(LinkedList_T oLinkedList) {
    free(oLinkedList);
 }
 
+/* LinkedList_map takes in a oLinkedList, function pfApply with parameters
+    pcKey, pvValue, and pvExtra, and pvExtra. It applys the function
+    pfApply with its paramters on all the bindings using the binding's
+    key as pcKey, binding's value as pvValue and pvExtra as pvExtra.*/
 static void LinkedList_map(LinkedList_T oLinkedList,
     void (*pfApply)(const char *pcKey, void *pvValue, void *pvExtra),
     const void *pvExtra) {
