@@ -319,6 +319,7 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey,
         size_t bucketLen;
         size_t i = 0;
         struct Node* head;
+        struct Node* next;
         bucketLen = oSymTable->maxbucket;
         oSymTable->bucketnum += 1;
         oSymTable->maxbucket = auBucketCounts[oSymTable->bucketnum];
@@ -332,8 +333,9 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey,
             head = oldArray[i]->psFirst;
             }
             while (head != NULL) {
-                SymTable_putNode(oSymTable, head);
-                head = head->psNext;
+               next = head->psNext;
+               SymTable_putNode(oSymTable, head);
+               head = next;
             }
             if (oldArray[i] != NULL) {
             LinkedList_free(oldArray[i]);
