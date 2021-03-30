@@ -337,10 +337,6 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey,
                SymTable_putNode(oSymTable, head);
                head = next;
             }
-            if (oldArray[i] != NULL) {
-            LinkedList_free(oldArray[i]);
-            }
-            i++;
         }
         /* frees all the old linkedlist */
         free(oldArray);
