@@ -254,10 +254,12 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey,
             }
             i++;
         }
+        i = 0;
         while(i < bucketLen) {
             if (oldArray[i] != NULL) {
             LinkedList_free(oldArray[i]);
             }
+            i += 1;
         }
     }
     oSymTable->bucketnum += 1;
