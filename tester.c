@@ -8,7 +8,9 @@
 int main(void) {
     SymTable_T oSymTable;
     char acJeter[] = "Jeter";
-    SymTable_put(oSymTable,acJeter,3);
+    int b = 3;
+    int * a = &b;
+    SymTable_put(oSymTable,acJeter,a);
     SymTable_free(oSymTable);
     return 0;
 }
