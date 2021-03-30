@@ -325,7 +325,9 @@ void SymTable_free(SymTable_T oSymTable) {
     assert(oSymTable != NULL);
     bucketLen = oSymTable->maxbucket;
     while(i < bucketLen) {
+      if (oSymTable->psArray[i] != NULL) {
       LinkedList_free(oSymTable->psArray[i]);
+      }
       i++;
     }
     free(oSymTable->psArray);
