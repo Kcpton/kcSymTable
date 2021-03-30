@@ -291,9 +291,12 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey,
                 SymTable_put(oSymTable, head->pvKey, head->pvItem);
                 head = head->psNext;
             }
+            if (oldArray[i] != NULL) {
             LinkedList_free(oldArray[i]);
+            }
             i++;
         }
+        /* frees all the old linkedlist */
     }
     return output;
     }
