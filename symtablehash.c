@@ -94,6 +94,9 @@ int LinkedList_put(LinkedList_T oLinkedList, const char *pcKey,
       return 0;
    }
    NewNode =(struct Node*)malloc(sizeof(struct Node));
+   if (NewNode == NULL) {
+      return 0;
+   }
    NewNode->pvItem = pvItem;
    copyKey = malloc(strlen(pcKey) + 1);
    strcpy(copyKey, pcKey);
