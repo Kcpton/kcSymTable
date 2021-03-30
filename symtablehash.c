@@ -68,7 +68,7 @@ struct SymTable {
     LinkedList_T* psArray;
 };
 
-LinkedList_T LinkedList_new(void) {
+static LinkedList_T LinkedList_new(void) {
    LinkedList_T oLinkedList;
    oLinkedList = (LinkedList_T) malloc(sizeof(struct LinkedList));
    if (oLinkedList == NULL) {
@@ -79,11 +79,11 @@ LinkedList_T LinkedList_new(void) {
    return oLinkedList;
 }
 
-size_t LinkedList_getLength(LinkedList_T oLinkedList) {
+static size_t LinkedList_getLength(LinkedList_T oLinkedList) {
    return oLinkedList->length;
 }
 
-int LinkedList_put(LinkedList_T oLinkedList, const char *pcKey, 
+static int LinkedList_put(LinkedList_T oLinkedList, const char *pcKey, 
    const void* pvItem) {
    struct Node *NewNode;
    char* copyKey;
@@ -111,7 +111,7 @@ int LinkedList_put(LinkedList_T oLinkedList, const char *pcKey,
    return 1;
 }
 
-int LinkedList_contains(LinkedList_T oLinkedList, const char *pcKey) {
+static int LinkedList_contains(LinkedList_T oLinkedList, const char *pcKey) {
    struct Node *psCurr;
    assert( oLinkedList != NULL);
    assert(pcKey != NULL);
@@ -125,7 +125,7 @@ int LinkedList_contains(LinkedList_T oLinkedList, const char *pcKey) {
    return 1;
 }
 
-void* LinkedList_get(LinkedList_T oLinkedList, const char *pcKey) {
+static void* LinkedList_get(LinkedList_T oLinkedList, const char *pcKey) {
    struct Node *psCurr;
    assert( oLinkedList != NULL);
    assert(pcKey != NULL);
@@ -134,12 +134,12 @@ void* LinkedList_get(LinkedList_T oLinkedList, const char *pcKey) {
       psCurr = psCurr->psNext;
    }
    if (psCurr == NULL) {
-      return 0;
+      return NULL;
    }
    return (void*) psCurr->pvItem;
 }
 
-void* LinkedList_replace(LinkedList_T oLinkedList, const char *pcKey, 
+static void* LinkedList_replace(LinkedList_T oLinkedList, const char *pcKey, 
    const void *pvValue) {
    const void *outItem;
    struct Node *psCurr;
@@ -150,14 +150,14 @@ void* LinkedList_replace(LinkedList_T oLinkedList, const char *pcKey,
       psCurr = psCurr->psNext;
    }
    if (psCurr == NULL) {
-      return 0;
+      return NULL;
    }
    outItem = (void*) psCurr->pvItem;
    psCurr->pvItem = pvValue;
    return (void*) outItem;
 }
 
-void *LinkedList_remove(LinkedList_T oLinkedList, const char *pcKey) {
+static void *LinkedList_remove(LinkedList_T oLinkedList, const char *pcKey) {
    struct Node*removalNode;
    const void* outItem;
    struct Node *psCurr;
@@ -192,7 +192,7 @@ void *LinkedList_remove(LinkedList_T oLinkedList, const char *pcKey) {
    return (void *) outItem;
 }
 
-void LinkedList_free(LinkedList_T oLinkedList) {
+static void LinkedList_free(LinkedList_T oLinkedList) {
    struct Node* curr;
    struct Node* next;
    assert(oLinkedList != NULL);
@@ -206,7 +206,7 @@ void LinkedList_free(LinkedList_T oLinkedList) {
    free(oLinkedList);
 }
 
-void LinkedList_map(LinkedList_T oLinkedList,
+static void LinkedList_map(LinkedList_T oLinkedList,
     void (*pfApply)(const char *pcKey, void *pvValue, void *pvExtra),
     const void *pvExtra) {
    struct Node *psCurr;
@@ -242,6 +242,9 @@ static size_t SymTable_hash(const char *pcKey, size_t uBucketCount) {
 
 SymTable_T SymTable_new(void) {
    SymTable_T oSymTable = (SymTable_T) malloc(sizeof(struct SymTable));
+   if (oSymTable == NULL) {
+      return NULL;
+   }
    oSymTable->length = 0;
    oSymTable->maxbucket = auBucketCounts[0];
    oSymTable->psArray = (LinkedList_T*) calloc(sizeof(LinkedList_T),
@@ -353,7 +356,7 @@ void* SymTable_remove(SymTable_T oSymTable, const char *pcKey) {
     assert(pcKey != NULL);
     hashval = SymTable_hash(pcKey, oSymTable->maxbucket);
     if (oSymTable->psArray[hashval] == NULL) {
-       return 0;
+       return NULL;
     }
     prevlen = LinkedList_getLength(oSymTable->psArray[hashval]);
     output = LinkedList_remove(oSymTable->psArray[hashval], pcKey);
