@@ -10,16 +10,28 @@
 #include <stdlib.h>
 #include <stddef.h>
 
+/* The Node Struct is used in the LinkedList SymTable and contains
+   a void* pvItem, string psKey, and next node psNext */
 struct Node
 {
+   /* pvItem is the value stored in the Node */
    const void *pvItem;
+   /* psKey is the string that stores the identity of the Node */
    char* psKey;
+   /* psNext is a pointer that points to the next Node in the 
+      linked List */
    struct Node *psNext;
 };
 
+/* The SymTable struct contains the first node of the linkedlist 
+   psFirst and contains it's length as a size_t */
 struct SymTable
 {
+   /* psFirst is a pointer that points to the first node in the 
+      linkedlist */
    struct Node *psFirst;
+   /* length is a size_t that stores how many bindings are in 
+      the table */
    size_t length;
 };
 
