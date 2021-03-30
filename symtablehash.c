@@ -13,24 +13,52 @@
 static const size_t auBucketCounts[] = {509, 1021, 2039, 4093, 8191, 
         16381, 32749, 65521};
 
+/* LinkedList_T is a pointer a LinkedList */
 typedef struct LinkedList *LinkedList_T;
 
+/* The Node Struct is used in the LinkedList in 
+   SymTable and contains
+   a void* pvItem, string psKey, and next node psNext */
 struct Node
 {
+   /* pvItem is the value stored in the Node */
    const void *pvItem;
+   /* psKey is the string that stores the identity of the Node */
    char* pvKey;
+   /* psNext is a pointer that points to the next Node in the 
+      linked List */
    struct Node *psNext;
 };
 
+/* LinkedList is the same as SymbolTable in symtablelist.c file.
+   It is all the same functions as symboltablelist.c with the
+   name changed to LinkedList */
 struct LinkedList
 {
+   /* psFirst is a pointer that points to the first node in the 
+      linkedlist */
    struct Node *psFirst;
+   /* length is a size_t that stores how many bindings are in 
+      the table */
    size_t length;
 };
+
+/* SymTable is a hashtable with dimension maxbucket (size of the
+   array), number of elements length, bucketnum and LinkedList
+   array psArray */
 struct SymTable {
+   /* maxbucket is a size_t that stores the dimension of the hash
+      table */
     size_t maxbucket;
+    /* length is a size_t that stores the number of elements in
+      SymTable */
     size_t length;
+    /* bucketnum is a size_t that stores with index value of
+      auBucketCounts that stores what is the maxbucket size and
+      the next maxbucket sizes */
     size_t bucketnum;
+    /* psArray stores an array of LinkedList_T that represent the
+      hashtable */
     LinkedList_T* psArray;
 };
 
