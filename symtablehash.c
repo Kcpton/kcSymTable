@@ -326,7 +326,7 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey,
         (oSymTable->maxbucket));
         oSymTable->length = 0;
         /* puts all the old bindings in the new Symtable */
-        printf('Hi');
+        printf("hi");
         while(i < bucketLen) {
             head = NULL;
             if (oldArray[i] != NULL) {
