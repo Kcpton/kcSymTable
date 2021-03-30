@@ -301,7 +301,6 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey,
             }
             i += 1;
         }
-        free(oldArray);
     }
 
 
