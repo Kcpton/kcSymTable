@@ -266,6 +266,7 @@ static size_t SymTable_hash(const char *pcKey, size_t uBucketCount) {
 static int SymTable_putNode(SymTable_T oSymTable, struct Node* pNode) {
    size_t hashval = SymTable_hash(pNode->pvKey, oSymTable->maxbucket);
    LinkedList_T oLinkedList = oSymTable->psArray[hashval];
+   printf("hi");
    pNode->psNext = oLinkedList->psFirst;
    oLinkedList->psFirst = pNode;
    oLinkedList->length += 1;
