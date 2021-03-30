@@ -286,12 +286,10 @@ size_t SymTable_getLength(SymTable_T oSymTable) {
 static int SymTable_putNode(SymTable_T oSymTable, struct Node* pNode) {
    LinkedList_T oLinkedList;
    size_t hashval = SymTable_hash(pNode->pvKey, oSymTable->maxbucket);
-     oSymTable->psArray[hashval];
-   oLinkedList = oSymTable->psArray[hashval];
-   if (oLinkedList == NULL) {
+   if (oSymTable->psArray[hashval] == NULL) {
        oSymTable->psArray[hashval] = LinkedList_new();
-       oLinkedList = oSymTable->psArray[hashval];
     }
+   oLinkedList = oSymTable->psArray[hashval];
    pNode->psNext = oLinkedList->psFirst;
    oLinkedList->psFirst = pNode;
    oLinkedList->length += 1;
