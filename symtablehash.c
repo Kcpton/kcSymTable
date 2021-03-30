@@ -262,6 +262,7 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey,
             }
             i += 1;
         }
+        free(oldArray);
     }
     oSymTable->bucketnum += 1;
     return output;
