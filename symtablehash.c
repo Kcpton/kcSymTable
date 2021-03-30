@@ -11,7 +11,7 @@
 #include <stddef.h>
 
 static const size_t auBucketCounts[] = {509, 1021, 2039, 4093, 8191, 
-        16381, 32749, 65521, 1231};
+        16381, 32749, 65521};
 
 typedef struct LinkedList *LinkedList_T;
 
@@ -210,7 +210,14 @@ SymTable_T SymTable_new_help(size_t maxbucket) {
 }
 
 SymTable_T SymTable_new(void) {
-   return SymTable_new_help(auBucketCounts[0]);
+   SymTable_T oSymTable;
+   oSymTable = (SymTable_T) malloc(sizeof(struct SymTable));
+   oSymTable->length = 0;
+   oSymTable->maxbucket = auBucketCounts[0];
+   oSymTable->psArray = (LinkedList_T*) calloc(sizeof(LinkedList_T),
+        (oSymTable->maxbucket)); 
+   oSymTable->bucketnum = 0;
+   return oSymTable;
 }
 
 
