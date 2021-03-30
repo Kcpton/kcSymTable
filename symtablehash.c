@@ -210,8 +210,7 @@ static void *LinkedList_remove(LinkedList_T oLinkedList,
    return (void *) outItem;
 }
 
-/* LinkedList_free takes in a oLinkedList and free it and all of it's 
-    contents */
+
 static void LinkedList_free(LinkedList_T oLinkedList) {
    struct Node* curr;
    struct Node* next;
@@ -263,14 +262,6 @@ static size_t SymTable_hash(const char *pcKey, size_t uBucketCount) {
     return uHash % uBucketCount;
     }
 
-static int SymTable_putNode(SymTable_T oSymTable, struct Node* pNode) {
-   size_t hashval = SymTable_hash(pNode->pvKey, oSymTable->maxbucket);
-   LinkedList_T oLinkedList = oSymTable->psArray[hashval];
-   pNode->psNext = oLinkedList->psFirst;
-   oLinkedList->psFirst = pNode;
-   oLinkedList->length += 1;
-   return 1;
-}
 
 SymTable_T SymTable_new(void) {
    SymTable_T oSymTable = (SymTable_T) malloc(sizeof(struct SymTable));
@@ -318,7 +309,6 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey,
         size_t bucketLen;
         size_t i = 0;
         struct Node* head;
-        struct Node* next;
         bucketLen = oSymTable->maxbucket;
         oSymTable->bucketnum += 1;
         oSymTable->maxbucket = auBucketCounts[oSymTable->bucketnum];
@@ -326,17 +316,19 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey,
         (oSymTable->maxbucket));
         oSymTable->length = 0;
         /* puts all the old bindings in the new Symtable */
-        printf("hi");
         while(i < bucketLen) {
             head = NULL;
             if (oldArray[i] != NULL) {
             head = oldArray[i]->psFirst;
             }
             while (head != NULL) {
-               next = head->psNext;
-               SymTable_putNode(oSymTable, head);
-               head = next;
+                SymTable_put(oSymTable, head->pvKey, head->pvItem);
+                head = head->psNext;
             }
+            if (oldArray[i] != NULL) {
+            LinkedList_free(oldArray[i]);
+            }
+            i++;
         }
         /* frees all the old linkedlist */
         free(oldArray);
