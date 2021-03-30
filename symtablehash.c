@@ -87,8 +87,6 @@ static size_t LinkedList_getLength(LinkedList_T oLinkedList) {
    return oLinkedList->length;
 }
 
-
-
 /* LinkedList_put gets a oLinkedList, pcKey, and pvItem. Tries to
    put the binding into the linkedlist. Returns 1 if successful, 
    otherwise return 0. */
@@ -176,8 +174,7 @@ static void* LinkedList_replace(LinkedList_T oLinkedList, const char *pcKey,
 /* LinkedList_remove takes in a oLinkedList and a string pcKey. If the
     string key is in the oLinkedList, remove the binding from the
     oLinkedList and return the value. Otherwise return NULL. */
-static void *LinkedList_remove(LinkedList_T oLinkedList, 
-   const char *pcKey) {
+static void *LinkedList_remove(LinkedList_T oLinkedList, const char *pcKey) {
    struct Node*removalNode;
    const void* outItem;
    struct Node *psCurr;
@@ -212,7 +209,7 @@ static void *LinkedList_remove(LinkedList_T oLinkedList,
    return (void *) outItem;
 }
 
-
+/* Linkedist_free takes a oLinkedList and frees it */
 static void LinkedList_free(LinkedList_T oLinkedList) {
    struct Node* curr;
    struct Node* next;
@@ -283,21 +280,6 @@ size_t SymTable_getLength(SymTable_T oSymTable) {
    return oSymTable->length;
 }
 
-static int SymTable_putNode(SymTable_T oSymTable, struct Node* pNode) {
-   LinkedList_T oLinkedList;
-   size_t hashval = SymTable_hash(pNode->pvKey, oSymTable->maxbucket);
-   if (oSymTable->psArray[hashval] == NULL) {
-       oSymTable->psArray[hashval] = LinkedList_new();
-    }
-   oLinkedList = oSymTable->psArray[hashval];
-   pNode->psNext = oLinkedList->psFirst;
-   oLinkedList->psFirst = pNode;
-   oLinkedList->length += 1;
-   return 1;
-}
-
-
-
 /* SymTable_put hashes the pcKey and puts the binding pair into
    the oSymTable. If the SymTable length is equal to maxbucket, it
    resizes. */
@@ -319,19 +301,19 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey,
     }
     /* this if statement contains the resizing of the oSymTable if the
       SymTable length is equal to the maxbucket length */
-   if (oSymTable->length == oSymTable->maxbucket && oSymTable->length == 
+   if (0 && oSymTable->length == oSymTable->maxbucket && oSymTable->length == 
       auBucketCounts[oSymTable->bucketnum] && oSymTable->bucketnum < 
          sizeof(auBucketCounts)/sizeof(auBucketCounts[0]) - 1) {
         LinkedList_T* oldArray = oSymTable->psArray;
         size_t bucketLen;
         size_t i = 0;
         struct Node* head;
-        struct Node* next;
         bucketLen = oSymTable->maxbucket;
         oSymTable->bucketnum += 1;
         oSymTable->maxbucket = auBucketCounts[oSymTable->bucketnum];
         oSymTable->psArray = (LinkedList_T*) calloc(sizeof(LinkedList_T),
         (oSymTable->maxbucket));
+        oSymTable->length = 0;
         /* puts all the old bindings in the new Symtable */
         while(i < bucketLen) {
             head = NULL;
@@ -339,17 +321,13 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey,
             head = oldArray[i]->psFirst;
             }
             while (head != NULL) {
-               next = head->psNext;
-                SymTable_putNode(oSymTable, head);
-                head = next;
+                SymTable_put(oSymTable, head->pvKey, head->pvItem);
+                head = head->psNext;
             }
-            /*
             if (oldArray[i] != NULL) {
             LinkedList_free(oldArray[i]);
             }
             i++;
-            */
-           i++;
         }
         /* frees all the old linkedlist */
         free(oldArray);
