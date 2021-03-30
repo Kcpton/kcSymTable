@@ -323,7 +323,7 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey,
         while(i < bucketLen) {
             head = NULL;
             if (oldArray[i] != NULL) {
-            head = oSymTable->psArray[i]->psFirst;
+            head = oldArray[i]->psFirst;
             }
             while (head != NULL) {
                 SymTable_put(oSymTable, head->pvKey, head->pvItem);
