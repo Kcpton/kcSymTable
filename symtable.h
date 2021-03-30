@@ -5,6 +5,7 @@
 
 #include <stddef.h>
 
+/* SymTable_T is a pointer to a SymTable */
 typedef struct SymTable *SymTable_T;
 
 /* SymTable_new takes in no parameters Creates a new SymTable_T that 
