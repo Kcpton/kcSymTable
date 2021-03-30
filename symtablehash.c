@@ -264,7 +264,6 @@ static size_t SymTable_hash(const char *pcKey, size_t uBucketCount) {
     }
 
 static int SymTable_putNode(SymTable_T oSymTable, struct Node* pNode) {
-   printf("hi");
    size_t hashval = SymTable_hash(pNode->pvKey, oSymTable->maxbucket);
    LinkedList_T oLinkedList = oSymTable->psArray[hashval];
    pNode->psNext = oLinkedList->psFirst;
@@ -327,6 +326,7 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey,
         (oSymTable->maxbucket));
         oSymTable->length = 0;
         /* puts all the old bindings in the new Symtable */
+        printf('Hi');
         while(i < bucketLen) {
             head = NULL;
             if (oldArray[i] != NULL) {
