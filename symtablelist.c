@@ -13,7 +13,7 @@
 struct Node
 {
    const void *pvItem;
-   char* value;
+   char* psKey;
    struct Node *psNext;
 };
 
@@ -38,24 +38,27 @@ size_t SymTable_getLength(SymTable_T oSymTable) {
 }
 
 int SymTable_put(SymTable_T oSymTable, const char *pcKey, 
-   const void* pvItem) {
+   const void* pvValue) {
    struct Node *NewNode;
    char* copyKey;
    struct Node *psCurr;
    assert(oSymTable != NULL);
    assert(pcKey != NULL);
    psCurr = oSymTable->psFirst;
-   while(psCurr != NULL && strcmp(psCurr->value, pcKey) != 0){
+   while(psCurr != NULL && strcmp(psCurr->psKey, pcKey) != 0){
       psCurr = psCurr->psNext;
    }
    if (psCurr != NULL) {
       return 0;
    }
    NewNode =(struct Node*)malloc(sizeof(struct Node));
-   NewNode->pvItem = pvItem;
+   if (NewNode == NULL) {
+      return 0;
+   }
+   NewNode->pvItem = pvValue;
    copyKey = malloc(strlen(pcKey) + 1);
    strcpy(copyKey, pcKey);
-   NewNode->value = copyKey;
+   NewNode->psKey = copyKey;
    NewNode->psNext = oSymTable->psFirst;
    oSymTable->psFirst = NewNode;
    oSymTable->length += 1;
@@ -68,7 +71,7 @@ int SymTable_contains(SymTable_T oSymTable, const char *pcKey) {
    assert( oSymTable != NULL);
    assert(pcKey != NULL);
    psCurr = oSymTable->psFirst;
-   while(psCurr != NULL && strcmp(psCurr->value, pcKey) != 0){
+   while(psCurr != NULL && strcmp(psCurr->psKey, pcKey) != 0){
       psCurr = psCurr->psNext;
    }
    if (psCurr == NULL) {
@@ -82,7 +85,7 @@ void* SymTable_get(SymTable_T oSymTable, const char *pcKey) {
    assert( oSymTable != NULL);
    assert(pcKey != NULL);
    psCurr = oSymTable->psFirst;
-   while(psCurr != NULL && strcmp(psCurr->value, pcKey) != 0){
+   while(psCurr != NULL && strcmp(psCurr->psKey, pcKey) != 0){
       psCurr = psCurr->psNext;
    }
    if (psCurr == NULL) {
@@ -98,7 +101,7 @@ void* SymTable_replace(SymTable_T oSymTable, const char *pcKey,
    assert( oSymTable != NULL);
    assert(pcKey != NULL);
    psCurr = oSymTable->psFirst;
-   while(psCurr != NULL && strcmp(psCurr->value, pcKey) != 0){
+   while(psCurr != NULL && strcmp(psCurr->psKey, pcKey) != 0){
       psCurr = psCurr->psNext;
    }
    if (psCurr == NULL) {
@@ -119,17 +122,17 @@ void *SymTable_remove(SymTable_T oSymTable, const char *pcKey) {
    if (psCurr == NULL) {
       return NULL;
    } 
-   if (strcmp(psCurr->value, pcKey) == 0) {
+   if (strcmp(psCurr->psKey, pcKey) == 0) {
       outItem = (void*) psCurr->pvItem;
       removalNode = psCurr;
       oSymTable->psFirst = psCurr->psNext;
-      free(removalNode->value);
+      free(removalNode->psKey);
       free(removalNode);
       oSymTable->length -=  1;
       return (void *) outItem;
    }
    while(psCurr->psNext != NULL && 
-      strcmp(psCurr->psNext->value, pcKey) != 0){
+      strcmp(psCurr->psNext->psKey, pcKey) != 0){
       psCurr = psCurr->psNext;
    }
    if (psCurr->psNext == NULL) {
@@ -138,7 +141,7 @@ void *SymTable_remove(SymTable_T oSymTable, const char *pcKey) {
    outItem = (void*)psCurr->psNext->pvItem;
    removalNode = psCurr->psNext;
    psCurr->psNext = psCurr->psNext->psNext;
-   free(removalNode->value);
+   free(removalNode->psKey);
    free(removalNode);
    oSymTable->length -= 1;
    return (void *) outItem;
@@ -152,7 +155,7 @@ void SymTable_free(SymTable_T oSymTable) {
    for (curr = oSymTable->psFirst; curr != NULL; 
       curr = next) {
       next = curr->psNext;
-      free(curr->value);
+      free(curr->psKey);
       free(curr);
    }
    free(oSymTable);
@@ -169,7 +172,7 @@ void SymTable_map(SymTable_T oSymTable,
    for (psCurr = oSymTable->psFirst;
         psCurr != NULL;
         psCurr = psCurr->psNext)
-      (*pfApply)((void*)psCurr->value, (void *)psCurr->pvItem, (void*)pvExtra);
+      (*pfApply)((void*)psCurr->psKey, (void *)psCurr->pvItem, (void*)pvExtra);
 }
 
 
