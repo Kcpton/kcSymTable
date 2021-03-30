@@ -118,6 +118,15 @@ static int LinkedList_put(LinkedList_T oLinkedList, const char *pcKey,
    return 1;
 }
 
+static int SymTable_putNode(SymTable_T oSymTable, struct Node* pNode) {
+   size_t hashval = SymTable_hash(pNode->pvKey, oSymTable->maxbucket);
+   LinkedList_T oLinkedList = oSymTable->psArray[hashval];
+   pNode->psNext = oLinkedList->psFirst;
+   oLinkedList->psFirst = pNode;
+   oLinkedList->length += 1;
+   return 1;
+}
+
 /* LinkedList_contains gets a oLinkedList and pcKey, and returns 1 if the
    key binding exist. Otherwise returns 0. */
 static int LinkedList_contains(LinkedList_T oLinkedList, const char *pcKey) {
@@ -323,7 +332,7 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey,
             head = oldArray[i]->psFirst;
             }
             while (head != NULL) {
-                SymTable_put(oSymTable, head->pvKey, head->pvItem);
+                SymbTable_putNode(oSymTable, head);
                 head = head->psNext;
             }
             if (oldArray[i] != NULL) {
