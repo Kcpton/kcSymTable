@@ -291,16 +291,9 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey,
                 SymTable_put(oSymTable, head->pvKey, head->pvItem);
                 head = head->psNext;
             }
+            LinkedList_free(oldArray[i]);
             i++;
         }
-        /* frees all the old linkedlist */
-        i = 0;
-        while(i < bucketLen) {
-            if (oldArray[i] != NULL) {
-            LinkedList_free(oldArray[i]);
-            }
-        }
-        free(oldArray);
     }
     return output;
     }
