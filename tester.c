@@ -11,5 +11,6 @@ int main(void) {
     int b = 3;
     int * a = &b;
     /* SymTable_put(oSymTable,acJeter,a); */
+    free(acJeter);
     return 0;
 }
