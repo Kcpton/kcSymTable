@@ -11,7 +11,7 @@
 #include <stddef.h>
 
 static const size_t auBucketCounts[] = {509, 1021, 2039, 4093, 8191, 
-        16381, 32749, 65521};
+        16381, 32749, 65521, 1231};
 
 typedef struct LinkedList *LinkedList_T;
 
