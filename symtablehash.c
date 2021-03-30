@@ -276,6 +276,7 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey,
         oSymTable->length = 0;
         oSymTable->psArray = (LinkedList_T*) calloc(sizeof(LinkedList_T),
         (oSymTable->maxbucket)); 
+        /* puts all the old bindings in the new Symtable */
         while(i < bucketLen) {
             head = NULL;
             if (oSymTable->psArray[i] != NULL) {
@@ -288,6 +289,7 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey,
             i++;
         }
         i = 0;
+        /* frees all the old linkedlist */
         while(i < bucketLen) {
             if (oldArray[i] != NULL) {
             LinkedList_free(oldArray[i]);
