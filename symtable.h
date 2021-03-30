@@ -8,7 +8,7 @@
 typedef struct SymTable *SymTable_T;
 
 /* SymTable_new takes in no parameters Creates a new SymTable_T that 
-    stores key value binding pairs. */
+    stores key value binding pairs. Returns the SymTable_T*/
 SymTable_T SymTable_new(void);
 
 /* SymTable_free takes in a oSymTable and free it and all of it's 
