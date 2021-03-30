@@ -166,6 +166,7 @@ void LinkedList_free(LinkedList_T oLinkedList) {
       free(curr->pvKey);
       free(curr);
    }
+   free(oLinkedList);
 }
 
 void LinkedList_map(LinkedList_T oLinkedList,
