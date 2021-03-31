@@ -3,6 +3,9 @@
 /* Author: Kevin Chen                                               */
 /*--------------------------------------------------------------------*/
 
+#ifndef symtableH
+#define symtableH
+
 #include <stddef.h>
 
 /* SymTable_T is a pointer to a SymTable */
@@ -54,3 +57,5 @@ void *SymTable_remove(SymTable_T oSymTable, const char *pcKey);
 void SymTable_map(SymTable_T oSymTable,
     void (*pfApply)(const char *pcKey, void *pvValue, void *pvExtra),
     const void *pvExtra);
+
+    #endif
