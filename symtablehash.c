@@ -12,7 +12,8 @@
 
 /* Note: For the sake of modularity This file uses all the functions 
    from symtablelist.c to implement all the linkedlist in the symtable. 
-   Skip to SymTable_hash for all the Symtable function.*/
+   Skip to SymTable_hash for all the Symtable function. 
+   Go to line ~250*/
 
 /* auBucketCounts contains the different dimensions in size_t that
    the hash table could have */
@@ -91,7 +92,7 @@ static size_t LinkedList_getLength(LinkedList_T oLinkedList) {
    put the binding into the linkedlist. Returns 1 if successful, 
    otherwise return 0. */
 static int LinkedList_put(LinkedList_T oLinkedList, const char *pcKey, 
-   const void* pvItem) {
+   const void* pvValue) {
    struct Node *NewNode;
    char* copyKey;
    struct Node *psCurr;
@@ -108,7 +109,7 @@ static int LinkedList_put(LinkedList_T oLinkedList, const char *pcKey,
    if (NewNode == NULL) {
       return 0;
    }
-   NewNode->pvItem = pvItem;
+   NewNode->pvItem = pvValue;
    copyKey = malloc(strlen(pcKey) + 1);
    strcpy(copyKey, pcKey);
    NewNode->pvKey = copyKey;
